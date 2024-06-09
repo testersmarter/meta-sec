@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Security Checker</title>
+</head>
+<body>
+    <h1>Website Security Checker</h1>
+    <form id="domainForm">
+        <label for="domain">Enter Domain:</label>
+        <input type="text" id="domain" name="domain" required>
+        <button type="submit">Check Security</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('domainForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var domain = document.getElementById('domain').value;
+            fetch('/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ domain: domain })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('results').innerHTML = JSON.stringify(data, null, 2);
+            });
+        });
+    </script>
+</body>
+</html>
